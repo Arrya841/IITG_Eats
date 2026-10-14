@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log in - IITG Eats</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f8f8fa;
+            color: #1c1c1c;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 20px;
+        }
+        .bg-backdrop {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle at 10% 20%, rgba(239, 79, 95, 0.08) 0%, transparent 40%),
+                        radial-gradient(circle at 90% 80%, rgba(244, 123, 32, 0.08) 0%, transparent 40%);
+            z-index: 0;
+            pointer-events: none;
+        }
+        .top-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            text-decoration: none;
+            z-index: 1;
+        }
+        .top-brand img {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            object-fit: cover;
+            box-shadow: 0 4px 12px rgba(239, 79, 95, 0.25);
+        }
+        .top-brand h1 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #1c1c1c;
+            letter-spacing: -0.02em;
+        }
+        .top-brand span { color: #ef4f5f; }
+        .zomato-page-card {
+            width: 100%;
+            max-width: 440px;
+            background: #ffffff;
+            border-radius: 14px;
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.04);
+            padding: 32px 30px;
+            z-index: 1;
+            position: relative;
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        .card-title {
+            font-size: 1.65rem;
+            font-weight: 600;
+            color: #1c1c1c;
+            letter-spacing: -0.02em;
+        }
+        .home-link {
+            font-size: 0.9rem;
+            color: #696969;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .home-link:hover { color: #ef4f5f; }
+        .form-group {
+            margin-bottom: 16px;
+            position: relative;
+        }
+        .zomato-input {
+            width: 100%;
+            height: 50px;
+            padding: 0 16px;
+            border: 1px solid #cfcfcf;
+            border-radius: 8px;
+            font-size: 0.98rem;
+            font-family: inherit;
+            color: #1c1c1c;
+            background: #ffffff;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+        .zomato-input:focus {
+            border-color: #ef4f5f;
+            box-shadow: 0 0 0 3px rgba(239, 79, 95, 0.15);
+        }
+        .zomato-input::placeholder { color: #9c9c9c; }
+        .pwd-toggle {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #828282;
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 4px;
+        }
+        .pwd-toggle:hover { color: #1c1c1c; }
+        .forgot-link-row {
+            text-align: right;
+            margin: -4px 0 16px;
+        }
+        .forgot-link-row a {
+            color: #ef4f5f;
+            font-size: 0.86rem;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .forgot-link-row a:hover { text-decoration: underline; }
+        .btn-submit {
+            width: 100%;
+            height: 50px;
+            background: #ef4f5f;
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 14px rgba(239, 79, 95, 0.28);
+        }
+        .btn-submit:hover:not(:disabled) {
+            background: #e23744;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 18px rgba(226, 55, 68, 0.38);
+        }
+        .btn-submit:disabled { opacity: 0.65; cursor: not-allowed; }
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 18px 0;
+            color: #9c9c9c;
+        }
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #e8e8e8;
+        }
+        .divider span {
+            padding: 0 12px;
+            font-size: 0.88rem;
+            color: #696969;
+            text-transform: lowercase;
+        }
+        .btn-google {
+            width: 100%;
+            height: 50px;
+            background: #ffffff;
+            color: #1c1c1c;
+            border: 1px solid #cfcfcf;
+            border-radius: 8px;
+            font-size: 0.98rem;
+            font-weight: 500;
+            font-family: inherit;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: all 0.2s ease;
+        }
+        .btn-google:hover:not(:disabled) {
+            background: #fafafb;
+            border-color: #9c9c9c;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+        .demo-box {
+            margin-top: 12px;
+            text-align: center;
+        }
+        .btn-demo {
+            background: #fff5f6;
+            color: #ef4f5f;
+            border: 1px dashed rgba(239, 79, 95, 0.5);
+            border-radius: 6px;
+            padding: 7px 16px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+        }
+        .btn-demo:hover { background: #ffe8eb; border-color: #ef4f5f; }
+        .card-footer {
+            text-align: center;
+            margin-top: 22px;
+            font-size: 0.94rem;
+            color: #363636;
+        }
+        .card-footer a {
+            color: #ef4f5f;
+            font-weight: 600;
+            text-decoration: none;
+        }
+        .card-footer a:hover { text-decoration: underline; }
+        .auth-msg {
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 0.88rem;
+            line-height: 1.4;
+            margin-bottom: 14px;
+            display: none;
+        }
+        .auth-msg.error { background: #fff0f1; color: #c92332; border: 1px solid rgba(201, 35, 50, 0.25); }
+        .auth-msg.success { background: #eef9f2; color: #1e7e44; border: 1px solid rgba(30, 126, 68, 0.25); }
+    </style>
+</head>
+<body>
+    <div class="bg-backdrop"></div>
+    <a href="index.html" class="top-brand">
+        <img src="logo.jpg" alt="IITG Eats" onerror="this.src='https://via.placeholder.com/44/ef4f5f/ffffff?text=IE'">
+        <h1>IITG <span>Eats</span></h1>
+    </a>
+
+    <div class="zomato-page-card">
+        <div class="card-header">
+            <h2 class="card-title">Log in</h2>
+            <a href="index.html" class="home-link"><i class="ri-home-4-line"></i> Home</a>
+        </div>
+
+        <form id="loginPageForm">
+            <div class="form-group">
+                <input type="email" id="loginEmail" class="zomato-input" placeholder="IITG Webmail / Email" required autocomplete="email">
+            </div>
+            <div class="form-group">
+                <input type="password" id="loginPassword" class="zomato-input" placeholder="Password" required autocomplete="current-password">
+                <button type="button" class="pwd-toggle" id="pwdToggle" aria-label="Toggle password"><i class="ri-eye-line"></i></button>
+            </div>
+            <div class="forgot-link-row">
+                <a href="#" id="forgotLink">Forgot password?</a>
+            </div>
+
+            <div id="authMsg" class="auth-msg"></div>
+
+            <button type="submit" class="btn-submit" id="submitBtn">Log in</button>
+
+            <div class="divider"><span>or</span></div>
+
+            <button type="button" class="btn-google" id="googleBtn">
+                <svg viewBox="0 0 24 24" width="20" height="20">
+                    <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/>
+                    <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.35 24 12 24z"/>
+                    <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 10.03 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
+                    <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.35 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+                </svg>
+                <span>Continue with Google</span>
+            </button>
+
+            <div class="demo-box">
+                <button type="button" class="btn-demo" id="demoBtn"><i class="ri-flashlight-line"></i> 1-Click Demo Fill (test_student_iitg)</button>
+            </div>
+
+            <div class="card-footer">
+                New to IITG Eats? <a href="signup.html">Create account</a>
+            </div>
+        </form>
+    </div>
+
+    <script src="supabase.js"></script>
+    <script>
+        const SUPABASE_URL = 'https://crilpczcrfkihlrvlouk.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNyaWxwY3pjcmZraWhscnZsb3VrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE3MTUwMjIsImV4cCI6MjEwNzI5MTAyMn0.84B_hivJv8Mslfi3JqJrfrzjyC-fa0RwAS27xDBIw1I';
+        const sb = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+
+        const form = document.getElementById('loginPageForm');
+        const emailInput = document.getElementById('loginEmail');
+        const pwdInput = document.getElementById('loginPassword');
+        const submitBtn = document.getElementById('submitBtn');
+        const msgEl = document.getElementById('authMsg');
+        const demoBtn = document.getElementById('demoBtn');
+        const pwdToggle = document.getElementById('pwdToggle');
+        const googleBtn = document.getElementById('googleBtn');
+
+        demoBtn.onclick = () => {
+            emailInput.value = 'test_student_iitg@gmail.com';
+            pwdInput.value = 'password123';
+        };
+
+        pwdToggle.onclick = () => {
+            const isPwd = pwdInput.type === 'password';
+            pwdInput.type = isPwd ? 'text' : 'password';
+            pwdToggle.innerHTML = `<i class="${isPwd ? 'ri-eye-off-line' : 'ri-eye-line'}"></i>`;
+        };
+
+        googleBtn.onclick = async () => {
+            if (!sb) return alert('Supabase client unavailable');
+            googleBtn.disabled = true;
+            googleBtn.textContent = 'Connecting to Google...';
+            try {
+                await sb.auth.signInWithOAuth({
+                    provider: 'google',
+                    options: { redirectTo: window.location.origin + '/index.html' }
+                });
+            } catch (err) {
+                alert(err.message || 'OAuth error');
+                googleBtn.disabled = false;
+                googleBtn.textContent = 'Continue with Google';
+            }
+        };
+
+        form.onsubmit = async (e) => {
+            e.preventDefault();
+            if (!sb) return alert('Supabase unavailable');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Logging in...';
+            msgEl.style.display = 'none';
+
+            try {
+                let { data, error } = await sb.auth.signInWithPassword({
+                    email: emailInput.value.trim(),
+                    password: pwdInput.value
+                });
+
+                if (error && error.message?.toLowerCase().includes('not confirmed')) {
+                    try {
+                        await sb.rpc('confirm_user_email', { user_email: emailInput.value.trim() });
+                        const retry = await sb.auth.signInWithPassword({
+                            email: emailInput.value.trim(),
+                            password: pwdInput.value
+                        });
+                        data = retry.data; error = retry.error;
+                    } catch (_) {}
+                }
+
+                if (error) throw error;
+
+                if (data?.user) {
+                    msgEl.className = 'auth-msg success';
+                    msgEl.textContent = 'Success! Redirecting to campus menu...';
+                    msgEl.style.display = 'block';
+                    localStorage.setItem('iitg_user', JSON.stringify({
+                        id: data.user.id,
+                        email: data.user.email,
+                        name: data.user.user_metadata?.full_name || 'Student',
+                        hostel: data.user.user_metadata?.hostel || 'Lohit',
+                        room: data.user.user_metadata?.room || 'H-101'
+                    }));
+                    setTimeout(() => window.location.href = 'index.html', 800);
+                }
+            } catch (err) {
+                msgEl.className = 'auth-msg error';
+                msgEl.textContent = err.message || 'Login failed';
+                msgEl.style.display = 'block';
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Log in';
+            }
+        };
+    </script>
+</body>
+</html>

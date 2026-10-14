@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Canteen Portal | IITG Eats</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="portal.css?v=20261013c">
+</head>
+<body data-portal="vendor">
+<div class="layout">
+  <aside class="sidebar">
+    <a class="brand" href="index.html">
+      <div class="brand-icon"><i class="ri-restaurant-2-fill"></i></div>
+      <div><b>IITG Eats</b><small>Operations suite</small></div>
+    </a>
+    <div>
+      <div class="side-label">Workspaces</div>
+      <nav class="nav">
+        <a href="admin.html"><i class="ri-dashboard-2-line"></i> Admin control</a>
+        <a href="vendor.html" class="active"><i class="ri-store-3-line"></i> Canteen portal</a>
+        <a href="rider.html"><i class="ri-bike-line"></i> Delivery portal</a>
+        <a href="index.html"><i class="ri-arrow-left-line"></i> Student website</a>
+      </nav>
+    </div>
+    <div class="side-bottom">
+      <strong>Preview environment</strong>
+      <p>Data is saved only in this browser. Not connected to live delivery, payment, or staff accounts.</p>
+      <a href="README-PORTALS.md" target="_blank" rel="noopener">Setup notes <i class="ri-arrow-right-up-line"></i></a>
+    </div>
+  </aside>
+  <div class="mobile-nav">
+    <a href="admin.html">Admin</a>
+    <a href="vendor.html" class="active">Canteen</a>
+    <a href="rider.html">Delivery</a>
+    <a href="index.html">Student app</a>
+  </div>
+  <main class="main">
+    <div class="topbar">
+      <div class="crumb"><i class="ri-home-4-line"></i> IITG Eats <i class="ri-arrow-right-s-line"></i> Canteen portal</div>
+      <div class="top-right">
+        <span class="online-pill">Local preview</span>
+        <span class="preview-pill"><i class="ri-flask-line"></i> DEMO ONLY</span>
+        <div class="avatar">C</div>
+      </div>
+    </div>
+    <div id="portalContent" aria-live="polite"></div>
+    <div class="notice">
+      <i class="ri-information-line"></i>
+      <span><strong>Demo build:</strong> Actions here update browser localStorage for same-origin tabs only. No authentication/authorization for staff, backend order sync, payment processing or real delivery has been set up.</span>
+    </div>
+  </main>
+</div>
+<dialog class="order-dialog" id="orderDialog" aria-label="Order details">
+  <div id="orderDialogBody"></div>
+  <form method="dialog"><button class="btn primary">Close details</button></form>
+</dialog>
+<div class="toast" id="portalToast" role="status" aria-live="polite"></div>
+<script src="catalog.js?v=20261013c"></script>
+<script src="portal-data.js?v=20261013c"></script>
+<script src="portal.js?v=20261013c"></script>
+</body>
+</html>

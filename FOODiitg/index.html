@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IITG Eats - Premium Food Delivery for IITG</title>
+    <meta name="description" content="Experience the best food delivery service on the IITG campus. Fast, fresh, and visually stunning.">
+    <link rel="stylesheet" href="styles.css?v=20261012">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <style id="zomato-auth-critical">
+        /* Critical Zomato Modal & Navbar Styling — Guaranteed Render */
+        .auth-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(28, 28, 28, 0.7) !important;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 2500;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+        }
+        .auth-modal.show {
+            opacity: 1 !important;
+            pointer-events: all !important;
+        }
+        .auth-modal .modal-content.zomato-card,
+        .zomato-card {
+            width: 92%;
+            max-width: 440px;
+            max-height: 92vh;
+            overflow-y: auto;
+            padding: 26px 28px 28px !important;
+            position: relative;
+            background: #ffffff !important;
+            border-radius: 12px !important;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.24) !important;
+            transform: translateY(16px) scale(0.98);
+            transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+            scrollbar-width: thin;
+            scrollbar-color: #ddd transparent;
+            box-sizing: border-box;
+        }
+        .auth-modal.show .modal-content.zomato-card {
+            transform: translateY(0) scale(1) !important;
+        }
+        .zomato-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 22px;
+        }
+        .zomato-modal-title {
+            font-size: 1.6rem !important;
+            font-weight: 600 !important;
+            color: #1c1c1c !important;
+            margin: 0 !important;
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif !important;
+            letter-spacing: -0.02em;
+        }
+        .zomato-close-btn {
+            background: #f4f4f5 !important;
+            border: none !important;
+            color: #1c1c1c !important;
+            width: 32px;
+            height: 32px;
+            border-radius: 50% !important;
+            font-size: 1.4rem !important;
+            line-height: 1;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.15s ease, transform 0.15s ease;
+        }
+        .zomato-close-btn:hover {
+            background: #e8e8ea !important;
+            transform: rotate(90deg);
+        }
+        .auth-form {
+            display: none;
+        }
+        .auth-form.active {
+            display: block !important;
+            animation: zomatoFormIn 0.25s ease forwards;
+        }
+        @keyframes zomatoFormIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .zomato-form-body {
+            display: flex;
+            flex-direction: column;
+        }
+        .zomato-field-group {
+            margin-bottom: 14px;
+            position: relative;
+        }
+        .zomato-input {
+            width: 100% !important;
+            height: 48px !important;
+            padding: 0 14px !important;
+            border: 1px solid #cfcfcf !important;
+            border-radius: 8px !important;
+            font-size: 0.95rem !important;
+            font-family: inherit !important;
+            color: #1c1c1c !important;
+            background: #ffffff !important;
+            outline: none !important;
+            box-sizing: border-box !important;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .zomato-input:focus {
+            border-color: #ef4f5f !important;
+            box-shadow: 0 0 0 3px rgba(239, 79, 95, 0.15) !important;
+        }
+        .zomato-input::placeholder {
+            color: #9c9c9c !important;
+        }
+        .zomato-row-2 {
+            display: grid;
+            grid-template-columns: 1.3fr 1fr;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+        .zomato-select-wrap {
+            position: relative;
+        }
+        .zomato-select {
+            appearance: none;
+            cursor: pointer;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='16' height='16'%3E%3Cpath fill='%23666' d='M12 15l-5-5h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 32px !important;
+        }
+        .pwd-field-group {
+            position: relative;
+        }
+        .pwd-field-group .pwd-toggle {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none !important;
+            border: none !important;
+            color: #828282 !important;
+            cursor: pointer;
+            font-size: 1.15rem;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .pwd-field-group .pwd-toggle:hover {
+            color: #1c1c1c !important;
+        }
+        .zomato-forgot-row {
+            text-align: right;
+            margin: -4px 0 14px;
+        }
+        .zomato-link {
+            color: #ef4f5f !important;
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-decoration: none;
+        }
+        .zomato-link:hover {
+            text-decoration: underline;
+        }
+        .btn-zomato-submit {
+            width: 100% !important;
+            height: 48px !important;
+            background: #ef4f5f !important;
+            color: #ffffff !important;
+            border: none !important;
+            border-radius: 8px !important;
+            font-size: 1rem !important;
+            font-weight: 600 !important;
+            font-family: inherit !important;
+            cursor: pointer !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 12px rgba(239, 79, 95, 0.25) !important;
+            margin-top: 2px;
+            box-sizing: border-box;
+        }
+        .btn-zomato-submit:hover:not(:disabled) {
+            background: #e23744 !important;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(226, 55, 68, 0.35) !important;
+        }
+        .btn-zomato-submit:active:not(:disabled) {
+            transform: translateY(0);
+        }
+        .btn-zomato-submit:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+            box-shadow: none !important;
+        }
+        .zomato-divider {
+            display: flex;
+            align-items: center;
+            margin: 16px 0;
+            color: #9c9c9c;
+        }
+        .zomato-divider::before,
+        .zomato-divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #e8e8e8 !important;
+        }
+        .zomato-divider span {
+            padding: 0 10px;
+            font-size: 0.86rem;
+            color: #696969;
+            text-transform: lowercase;
+        }
+        .btn-zomato-google {
+            width: 100% !important;
+            height: 48px !important;
+            background: #ffffff !important;
+            color: #1c1c1c !important;
+            border: 1px solid #cfcfcf !important;
+            border-radius: 8px !important;
+            font-size: 0.96rem !important;
+            font-weight: 500 !important;
+            font-family: inherit !important;
+            cursor: pointer !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+            box-sizing: border-box;
+            transition: background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+        }
+        .btn-zomato-google:hover:not(:disabled) {
+            background: #fafafb !important;
+            border-color: #9c9c9c !important;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08) !important;
+        }
+        .google-svg {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+        }
+        .zomato-demo-row {
+            margin-top: 10px;
+            text-align: center;
+        }
+        .btn-zomato-demo {
+            background: #fff5f6 !important;
+            color: #ef4f5f !important;
+            border: 1px dashed rgba(239, 79, 95, 0.4) !important;
+            border-radius: 6px !important;
+            padding: 6px 14px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.2s ease;
+        }
+        .btn-zomato-demo:hover {
+            background: #ffe8eb !important;
+            border-color: #ef4f5f !important;
+        }
+        .zomato-terms-check {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            font-size: 0.78rem;
+            color: #696969;
+            line-height: 1.4;
+            margin: 4px 0 14px;
+            cursor: pointer;
+        }
+        .zomato-terms-check input[type="checkbox"] {
+            margin-top: 2px;
+            accent-color: #ef4f5f;
+            cursor: pointer;
+        }
+        .zomato-terms-check a {
+            color: #ef4f5f !important;
+            text-decoration: none;
+        }
+        .zomato-terms-check a:hover {
+            text-decoration: underline;
+        }
+        .zomato-modal-footer {
+            text-align: center;
+            margin-top: 18px;
+            font-size: 0.92rem;
+            color: #363636;
+        }
+        .zomato-modal-footer a {
+            color: #ef4f5f !important;
+            font-weight: 600;
+            text-decoration: none;
+        }
+        .zomato-modal-footer a:hover {
+            text-decoration: underline;
+        }
+        .zomato-sub-text {
+            font-size: 0.88rem;
+            color: #696969;
+            margin: 0 0 14px 0;
+            line-height: 1.45;
+        }
+        .auth-msg {
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            font-size: 0.86rem;
+            line-height: 1.45;
+            text-align: left;
+            margin: 0 0 12px;
+        }
+        .auth-msg.error {
+            background: #fff0f1 !important;
+            color: #c92332 !important;
+            border: 1px solid rgba(201, 35, 50, 0.25) !important;
+        }
+        .auth-msg.success {
+            background: #eef9f2 !important;
+            color: #1e7e44 !important;
+            border: 1px solid rgba(30, 126, 68, 0.25) !important;
+        }
+        .nav-auth-link {
+            font-weight: 500;
+            font-size: 1.05rem;
+            color: #363636 !important;
+            padding: 0.3rem 0.2rem;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        .nav-auth-link:hover {
+            color: #ef4f5f !important;
+        }
+        .nav-user-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.55rem;
+            padding: 3px 12px 3px 3px;
+            border-radius: 24px;
+            background: #f7f7f8;
+            border: 1px solid #e2e2e6;
+            color: #1c1c1c !important;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+        }
+        .user-avatar-circle {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ef4f5f, #e23744);
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 0.88rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+    <div class="iitg-preview-banner" role="status">
+        <i class="ri-flask-line"></i> <strong>WEBSITE PREVIEW</strong> — Demo orders correlate live with staff workspaces:
+        <a href="admin.html" target="_blank" title="Open Admin Control"><i class="ri-dashboard-2-line"></i> Admin</a>
+        <span style="opacity:0.4">|</span>
+        <a href="vendor.html" target="_blank" title="Open Canteen Portal"><i class="ri-store-3-line"></i> Canteen</a>
+        <span style="opacity:0.4">|</span>
+        <a href="rider.html" target="_blank" title="Open Delivery Portal"><i class="ri-bike-line"></i> Delivery</a>
+    </div>
+    <!-- Auth Modal (Zomato Standard) -->
+    <div id="authModal" class="auth-modal" role="dialog" aria-modal="true" aria-labelledby="authModalHeading">
+        <div class="modal-content zomato-card">
+            <!-- Modal Header -->
+            <div class="zomato-modal-header">
+                <h2 id="authModalHeading" class="zomato-modal-title">Log in</h2>
+                <button class="zomato-close-btn" id="closeModal" aria-label="Close dialog">&times;</button>
+            </div>
+
+            <!-- Login Form -->
+            <form id="loginForm" class="auth-form active">
+                <div class="zomato-form-body">
+                    <div class="zomato-field-group">
+                        <input type="email" id="loginEmail" class="zomato-input" placeholder="Email / IITG Webmail" required autocomplete="email">
+                    </div>
+                    <div class="zomato-field-group pwd-field-group">
+                        <input type="password" id="loginPassword" class="zomato-input" placeholder="Password" required autocomplete="current-password">
+                        <button type="button" class="pwd-toggle" data-target="loginPassword" aria-label="Toggle password visibility">
+                            <i class="ri-eye-line"></i>
+                        </button>
+                    </div>
+                    <div class="zomato-forgot-row">
+                        <a href="#" class="zomato-link" id="forgotPwdLink">Forgot password?</a>
+                    </div>
+
+                    <div id="loginMsg" class="auth-msg" style="display:none;"></div>
+
+                    <button type="submit" class="btn-zomato-submit" id="loginSubmitBtn">
+                        Log in
+                    </button>
+
+                    <div class="zomato-divider">
+                        <span>or</span>
+                    </div>
+
+                    <button type="button" class="btn-zomato-google" id="googleAuthBtn">
+                        <svg class="google-svg" viewBox="0 0 24 24" width="20" height="20">
+                            <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/>
+                            <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.35 24 12 24z"/>
+                            <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 10.03 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
+                            <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.35 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+                        </svg>
+                        <span>Continue with Google</span>
+                    </button>
+
+                    <div class="zomato-demo-row">
+                        <button type="button" class="btn-zomato-demo" id="quickDemoFillBtn" title="Instant student test account">
+                            <i class="ri-flashlight-line"></i> 1-Click Demo Fill (test_student_iitg)
+                        </button>
+                    </div>
+
+                    <div class="zomato-modal-footer">
+                        New to IITG Eats? <a href="#" id="switchToSignup">Create account</a>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Sign Up Form -->
+            <form id="signupForm" class="auth-form">
+                <div class="zomato-form-body">
+                    <div class="zomato-field-group">
+                        <input type="text" id="signupName" class="zomato-input" placeholder="Full Name" required autocomplete="name">
+                    </div>
+                    <div class="zomato-field-group">
+                        <input type="email" id="signupEmail" class="zomato-input" placeholder="IITG Webmail / Email" required autocomplete="email">
+                    </div>
+                    <div class="zomato-row-2">
+                        <div class="zomato-select-wrap">
+                            <select id="signupHostel" class="zomato-input zomato-select" required>
+                                <option value="" disabled selected>Select Hostel</option>
+                                <option value="Lohit">Lohit</option>
+                                <option value="Kameng">Kameng</option>
+                                <option value="Brahmaputra">Brahmaputra</option>
+                                <option value="Umiam">Umiam</option>
+                                <option value="Barak">Barak</option>
+                                <option value="Subansiri">Subansiri</option>
+                                <option value="Manas">Manas</option>
+                                <option value="Dihing">Dihing</option>
+                                <option value="Disang">Disang</option>
+                                <option value="Siang">Siang</option>
+                                <option value="Kapili">Kapili</option>
+                                <option value="Dibang">Dibang</option>
+                            </select>
+                        </div>
+                        <input type="text" id="signupRoom" class="zomato-input" placeholder="Room (e.g. H-204)" required>
+                    </div>
+                    <div class="zomato-field-group pwd-field-group">
+                        <input type="password" id="signupPassword" class="zomato-input" placeholder="Password (Min. 6 characters)" minlength="6" required autocomplete="new-password">
+                        <button type="button" class="pwd-toggle" data-target="signupPassword" aria-label="Toggle password visibility">
+                            <i class="ri-eye-line"></i>
+                        </button>
+                    </div>
+
+                    <label class="zomato-terms-check">
+                        <input type="checkbox" id="signupTermsCheck" checked required>
+                        <span>I agree to IITG Eats's <a href="#">Terms of Service</a>, <a href="#">Privacy Policy</a> and <a href="#">Content Policies</a></span>
+                    </label>
+
+                    <div id="signupMsg" class="auth-msg" style="display:none;"></div>
+
+                    <button type="submit" class="btn-zomato-submit" id="signupSubmitBtn">
+                        Create account
+                    </button>
+
+                    <div class="zomato-divider">
+                        <span>or</span>
+                    </div>
+
+                    <button type="button" class="btn-zomato-google" id="googleAuthBtnSignup">
+                        <svg class="google-svg" viewBox="0 0 24 24" width="20" height="20">
+                            <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/>
+                            <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.35 24 12 24z"/>
+                            <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 10.03 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
+                            <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.35 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+                        </svg>
+                        <span>Continue with Google</span>
+                    </button>
+
+                    <div class="zomato-modal-footer">
+                        Already have an account? <a href="#" id="switchToLogin">Log in</a>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Forgot Password View -->
+            <form id="forgotForm" class="auth-form">
+                <div class="zomato-form-body">
+                    <p class="zomato-sub-text">Enter your registered email address and we'll send you instructions to reset your password.</p>
+                    <div class="zomato-field-group">
+                        <input type="email" id="forgotEmail" class="zomato-input" placeholder="IITG Webmail / Email" required autocomplete="email">
+                    </div>
+
+                    <div id="forgotMsg" class="auth-msg" style="display:none;"></div>
+
+                    <button type="submit" class="btn-zomato-submit" id="forgotSubmitBtn">
+                        Send Reset Link
+                    </button>
+
+                    <div class="zomato-modal-footer">
+                        <a href="#" id="backToLoginFromForgot"><i class="ri-arrow-left-s-line"></i> Back to Log in</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Background blobs -->
+    <div class="blob-c">
+        <div class="blob"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <header class="glass-header">
+        <div class="header-left">
+            <div class="logo" id="homeLogo">
+                <img src="logo.jpg" alt="IITG Eats Logo" onerror="this.src='https://via.placeholder.com/40/ff3366/ffffff?text=IE'">
+                <span>IITG EATS</span>
+            </div>
+            <div class="location-picker" id="locationPicker">
+                <i class="ri-map-pin-fill"></i>
+                <div class="loc-text">
+                    <span class="loc-title" id="locTitle">IITG Campus</span>
+                    <span class="loc-desc" id="locDesc">Guwahati, Assam</span>
+                </div>
+                <i class="ri-arrow-down-s-line"></i>
+            </div>
+        </div>
+        <div class="search-bar">
+            <i class="ri-search-line"></i>
+            <input type="text" id="searchInput" placeholder="Search for 'Biryani' or 'Hostel Canteens'">
+            <button class="veg-toggle" id="vegToggle" title="Veg Mode">
+                <span class="veg-dot"></span><span class="veg-label">Veg Only</span>
+            </button>
+        </div>
+        <nav class="header-nav">
+            <ul>
+                <li id="loginBtn"><a href="#" class="nav-auth-link">Log in</a></li>
+                <li id="signupBtn"><a href="#" class="nav-auth-link">Sign up</a></li>
+                <li id="profileBtn" style="display:none;">
+                    <a href="#" class="nav-user-pill">
+                        <span class="user-avatar-circle" id="userAvatarCircle">S</span>
+                        <span id="profileName">Profile</span>
+                    </a>
+                </li>
+                <li id="cartBtn"><a href="#"><i class="ri-shopping-cart-line"></i> <span>Cart <span class="cart-count" id="cartCount">0</span></span></a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- ====== HOME PAGE ====== -->
+    <main id="homePage">
+        <!-- Offers Section -->
+        <section class="offers-section">
+            <div class="offers-container" id="offersContainer">
+                <!-- offers injected by JS -->
+            </div>
+        </section>
+
+        <!-- Collections Section -->
+        <section class="collections-section">
+            <div class="section-header">
+                <h2>Collections</h2>
+                <div class="nav-arrows">
+                    <button class="nav-arrow" onclick="scrollEl('collectionsGrid', -1)"><i class="ri-arrow-left-line"></i></button>
+                    <button class="nav-arrow" onclick="scrollEl('collectionsGrid', 1)"><i class="ri-arrow-right-line"></i></button>
+                </div>
+            </div>
+            <div class="collections-scroll" id="collectionsGrid">
+                <!-- collections injected by JS -->
+            </div>
+        </section>
+
+        <!-- Categories Section -->
+        <section class="categories-section">
+            <div class="section-header">
+                <h2>What's on your mind?</h2>
+                <div class="nav-arrows">
+                    <button class="nav-arrow" onclick="scrollEl('categoriesGrid', -1)"><i class="ri-arrow-left-line"></i></button>
+                    <button class="nav-arrow" onclick="scrollEl('categoriesGrid', 1)"><i class="ri-arrow-right-line"></i></button>
+                </div>
+            </div>
+            <div class="categories-scroll" id="categoriesGrid">
+                <!-- Categories injected by JS -->
+            </div>
+        </section>
+
+        <!-- Top Restaurants / Canteens -->
+        <section class="restaurants-section">
+            <h2 id="restSectionTitle">Top eateries in IITG</h2>
+            <div class="filters">
+                <button class="filter-btn" id="filterBtn">Filter <i class="ri-filter-3-line"></i></button>
+                <button class="filter-btn" id="sortBtn">Sort By <i class="ri-arrow-down-s-line"></i></button>
+                <button class="filter-btn chip" data-filter="fast">Fast Delivery</button>
+                <button class="filter-btn chip" data-filter="rating">Rating 4.0+</button>
+                <button class="filter-btn chip" data-filter="pureveg">Pure Veg</button>
+                <button class="filter-btn chip" data-filter="offers">Offers</button>
+                <button class="filter-btn" id="clearFilters" style="display:none;">Clear <i class="ri-close-line"></i></button>
+            </div>
+            <!-- Filter dropdown -->
+            <div class="filter-panel glass-panel" id="filterPanel">
+                <h4>Filter</h4>
+                <div class="filter-group">
+                    <h5>Cuisine</h5>
+                    <div id="cuisineFilters"></div>
+                </div>
+                <div class="filter-group">
+                    <h5>Cost for two</h5>
+                    <div class="range-chips">
+                        <button class="range-chip" data-cost="all">All</button>
+                        <button class="range-chip" data-cost="low">₹0-150</button>
+                        <button class="range-chip" data-cost="mid">₹150-300</button>
+                        <button class="range-chip" data-cost="high">₹300+</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Sort dropdown -->
+            <div class="filter-panel glass-panel" id="sortPanel">
+                <h4>Sort By</h4>
+                <button class="sort-option" data-sort="relevance">Relevance (Recommended)</button>
+                <button class="sort-option" data-sort="rating">Rating: High to Low</button>
+                <button class="sort-option" data-sort="time">Delivery Time</button>
+                <button class="sort-option" data-sort="cost">Cost: Low to High</button>
+            </div>
+            <div class="restaurants-grid" id="restaurantsGrid">
+                <!-- Restaurants injected by JS -->
+            </div>
+            <div class="empty-state" id="emptyState" style="display:none;">
+                <i class="ri-restaurant-line"></i>
+                <p>No restaurants match your filters.</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- ====== RESTAURANT MENU PAGE ====== -->
+    <section class="menu-page" id="menuPage" style="display:none;">
+        <div class="menu-hero">
+            <button class="back-btn" id="backToHome"><i class="ri-arrow-left-line"></i></button>
+            <div class="menu-hero-content">
+                <div class="menu-hero-img" id="menuHeroImg"></div>
+                <div class="menu-hero-info">
+                    <h1 id="menuRestName"></h1>
+                    <div class="menu-hero-meta">
+                        <span class="rest-rating"><i class="ri-star-fill"></i> <span id="menuRating"></span></span>
+                        <span class="rest-time"><i class="ri-timer-line"></i> <span id="menuTime"></span></span>
+                        <span id="menuPrice"></span>
+                    </div>
+                    <p class="menu-cuisines" id="menuCuisines"></p>
+                    <div class="menu-offer-banner" id="menuOfferBanner"></div>
+                </div>
+            </div>
+        </div>
+        <div class="menu-body">
+            <div class="menu-tabs">
+                <button class="menu-tab active" data-mtab="menu">Menu</button>
+                <button class="menu-tab" data-mtab="reviews">Reviews</button>
+                <button class="menu-tab" data-mtab="about">About</button>
+            </div>
+            <div class="menu-main">
+                <div class="menu-categories">
+                    <div class="sticky-cats" id="menuCats">
+                        <!-- category nav injected -->
+                    </div>
+                </div>
+                <div class="menu-items" id="menuItems">
+                    <!-- menu items injected -->
+                </div>
+                <div class="menu-about" id="menuAbout" style="display:none;">
+                    <h3>About this place</h3>
+                    <p id="menuAboutText"></p>
+                    <h3>Operating Hours</h3>
+                    <p id="menuHours"></p>
+                    <h3>Cuisines</h3>
+                    <p id="menuCuisinesList"></p>
+                </div>
+                <div class="menu-reviews" id="menuReviews" style="display:none;">
+                    <div class="reviews-summary">
+                        <div class="big-rating" id="reviewBigRating"></div>
+                        <div class="rating-bars" id="ratingBars"></div>
+                    </div>
+                    <div id="reviewsList"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== CART SIDE PANEL ====== -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+    <aside class="cart-panel glass-panel" id="cartPanel">
+        <div class="cart-header">
+            <h3>Your Cart</h3>
+            <button class="close-cart" id="closeCart"><i class="ri-close-line"></i></button>
+        </div>
+        <div class="cart-body" id="cartBody">
+            <!-- cart items injected -->
+        </div>
+        <div class="cart-empty" id="cartEmpty">
+            <i class="ri-shopping-cart-line"></i>
+            <p>Your cart is empty</p>
+            <button class="btn-primary" id="cartBrowseBtn">Browse Restaurants</button>
+        </div>
+        <div class="cart-footer" id="cartFooter" style="display:none;">
+            <div class="bill-summary">
+                <div class="bill-row"><span>Item Total</span><span id="billItemTotal">₹0</span></div>
+                <div class="bill-row"><span>Delivery Fee</span><span id="billDelivery">₹0</span></div>
+                <div class="bill-row"><span>Packaging Charges</span><span id="billPackaging">₹0</span></div>
+                <div class="bill-row"><span>Taxes & Charges</span><span id="billTax">₹0</span></div>
+                <div class="bill-row discount-row"><span>Discount</span><span id="billDiscount">-₹0</span></div>
+                <div class="bill-row total-row"><span>To Pay</span><span id="billTotal">₹0</span></div>
+            </div>
+            <button class="btn-primary checkout-btn" id="checkoutBtn">Proceed to Checkout</button>
+        </div>
+    </aside>
+
+    <!-- ====== CHECKOUT PAGE ====== -->
+    <section class="checkout-page" id="checkoutPage" style="display:none;">
+        <div class="checkout-header">
+            <button class="back-btn" id="backToCart"><i class="ri-arrow-left-line"></i></button>
+            <h2>Checkout</h2>
+        </div>
+        <div class="checkout-body">
+            <div class="checkout-left">
+                <!-- Delivery Address -->
+                <div class="checkout-section">
+                    <h3><i class="ri-map-pin-line"></i> Delivery Address</h3>
+                    <div class="address-card" id="defaultAddressCard">
+                        <div class="address-type">Home <span class="addr-tag">DEFAULT</span></div>
+                        <p id="defaultAddress"></p>
+                    </div>
+                    <button class="add-addr-btn" id="addAddrBtn"><i class="ri-add-line"></i> Add New Address</button>
+                </div>
+
+                <div class="checkout-section" style="margin-top:14px">
+                    <h3><i class="ri-community-line"></i> Campus delivery destination</h3>
+                    <label for="deliveryHostel" style="display:block;margin:9px 0 6px;font-size:13px">Select IITG hostel or pickup point</label>
+                    <select id="deliveryHostel" style="width:100%;padding:12px;border:1px solid #ddd;border-radius:9px;background:white">
+                        <option value="">Select a delivery location</option>
+                        <option>Lohit</option><option>Kameng</option><option>Barak</option><option>Gaurang</option><option>Core</option><option>Subansiri</option><option>Dhansiri</option><option>Siang</option><option>Umiam</option><option>Disang</option><option>Kapili</option><option>Manas</option><option>Brahmaputra</option><option>Dihing</option><option>Other approved campus point</option>
+                    </select>
+                    <input type="text" id="deliveryNote" maxlength="140" placeholder="Block, room / approved handoff point" style="width:100%;margin-top:8px;padding:12px;border:1px solid #ddd;border-radius:9px">
+                </div>
+
+                <!-- Schedule -->
+                <div class="checkout-section">
+                    <h3><i class="ri-time-line"></i> Delivery Time</h3>
+                    <div class="schedule-options">
+                        <label class="schedule-opt active">
+                            <input type="radio" name="schedule" value="now" checked>
+                            <div>
+                                <strong>Deliver Now</strong>
+                                <span>Est. 25-40 mins</span>
+                            </div>
+                        </label>
+                        <label class="schedule-opt">
+                            <input type="radio" name="schedule" value="later">
+                            <div>
+                                <strong>Schedule for Later</strong>
+                                <input type="datetime-local" id="scheduleTime" class="schedule-input">
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Payment -->
+                <div class="checkout-section">
+                    <h3><i class="ri-bank-card-line"></i> Payment Method</h3>
+                    <div class="payment-options">
+                        <label class="pay-opt active">
+                            <input type="radio" name="payment" value="upi" checked>
+                            <i class="ri-smartphone-line"></i>
+                            <div><strong>UPI</strong><span>Google Pay, PhonePe, Paytm</span></div>
+                        </label>
+                        <label class="pay-opt">
+                            <input type="radio" name="payment" value="card">
+                            <i class="ri-bank-card-line"></i>
+                            <div><strong>Card</strong><span>Credit / Debit Card</span></div>
+                        </label>
+                        <label class="pay-opt">
+                            <input type="radio" name="payment" value="wallet">
+                            <i class="ri-wallet-3-line"></i>
+                            <div><strong>Wallet</strong><span>IITG Eats Wallet (₹0)</span></div>
+                        </label>
+                        <label class="pay-opt">
+                            <input type="radio" name="payment" value="cod">
+                            <i class="ri-money-cny-circle-line"></i>
+                            <div><strong>Cash on Delivery</strong><span>Pay when delivered</span></div>
+                        </label>
+                    </div>
+                    <div class="upi-input" id="upiInput">
+                        <input type="text" placeholder="Enter UPI ID (e.g. name@okhdfcbank)">
+                    </div>
+                </div>
+            </div>
+
+            <div class="checkout-right">
+                <div class="order-summary glass-panel">
+                    <h3>Order Summary</h3>
+                    <div class="summary-items" id="summaryItems"></div>
+                    <div class="coupon-row">
+                        <input type="text" id="couponInput" placeholder="Enter coupon code">
+                        <button class="btn-primary" id="applyCoupon">Apply</button>
+                    </div>
+                    <div class="coupon-msg" id="couponMsg"></div>
+                    <div class="bill-summary">
+                        <div class="bill-row"><span>Item Total</span><span id="coItemTotal">₹0</span></div>
+                        <div class="bill-row"><span>Delivery Fee</span><span id="coDelivery">₹0</span></div>
+                        <div class="bill-row"><span>Packaging Charges</span><span id="coPackaging">₹0</span></div>
+                        <div class="bill-row"><span>Taxes & Charges</span><span id="coTax">₹0</span></div>
+                        <div class="bill-row discount-row"><span>Discount</span><span id="coDiscount">-₹0</span></div>
+                        <div class="bill-row total-row"><span>To Pay</span><span id="coTotal">₹0</span></div>
+                    </div>
+                    <p style="font-size:12px;color:#965324;background:#fff4dd;border:1px solid #f2d8a6;padding:10px;border-radius:9px;line-height:1.5">DEMO CHECKOUT — no real UPI, card or wallet payment takes place. Do not use this site to purchase actual food yet.</p>
+                    <button class="btn-primary place-order-btn" id="placeOrderBtn">Place DEMO Order</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== ORDER TRACKING PAGE ====== -->
+    <section class="tracking-page" id="trackingPage" style="display:none;">
+        <div class="checkout-header">
+            <button class="back-btn" id="trackBack"><i class="ri-arrow-left-line"></i></button>
+            <h2>Order Tracking</h2>
+        </div>
+        <div class="tracking-body">
+            <div class="tracking-main">
+                <div class="order-confirmed glass-panel">
+                    <div class="conf-icon"><i class="ri-checkbox-circle-fill"></i></div>
+                    <h2 id="trackConfTitle">Order Placed!</h2>
+                    <p>Order ID: <span id="trackOrderId"></span></p>
+                    <p class="track-eta"><i class="ri-time-line"></i> Latest status: <strong id="trackEta">Awaiting confirmation</strong></p>
+                </div>
+                <div class="track-timeline" id="trackTimeline">
+                    <!-- timeline injected -->
+                </div>
+                <div class="track-delivery glass-panel" id="trackDelPartner" style="display:none;">
+                    <div class="dp-avatar" style="display:grid;place-items:center;font-size:24px;background:#ffebdd;color:#c92332"><i class="ri-bike-line"></i></div>
+                    <div>
+                        <h4 id="dpName">Assigned delivery partner</h4>
+                        <p>Delivery Partner</p>
+                    </div>
+                    <span style="font-size:12px;color:#8b7770">Demo — contact unavailable</span>
+                </div>
+            </div>
+            <div class="tracking-side glass-panel">
+                <h3>Order Details</h3>
+                <div class="track-rest">
+                    <h4 id="trackRestName"></h4>
+                    <p id="trackItems"></p>
+                </div>
+                <div class="bill-summary">
+                    <div class="bill-row"><span>Item Total</span><span id="trackItemTotal">₹0</span></div>
+                    <div class="bill-row"><span>Delivery</span><span id="trackDelivery">₹0</span></div>
+                    <div class="bill-row"><span>Taxes</span><span id="trackTax">₹0</span></div>
+                    <div class="bill-row total-row"><span>Total</span><span id="trackTotal">₹0</span></div>
+                </div>
+                <div class="track-payment">
+                    <i class="ri-bank-card-line"></i> <span id="trackPayMethod">UPI</span>
+                </div>
+                <button class="order-more-btn" id="trackOrderMore">
+                    <i class="ri-shopping-basket-line"></i> Order More
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== PROFILE PAGE ====== -->
+    <section class="profile-page" id="profilePage" style="display:none;">
+        <div class="checkout-header">
+            <button class="back-btn" id="profileBack"><i class="ri-arrow-left-line"></i></button>
+            <h2>My Profile</h2>
+        </div>
+        <div class="profile-body">
+            <div class="profile-card glass-panel">
+                <div class="profile-avatar"><i class="ri-user-3-line"></i></div>
+                <h3 id="profileUserName"></h3>
+                <p id="profileUserEmail"></p>
+                <p id="profileUserLocation" class="profile-location" style="display:none;"><i class="ri-community-line"></i> <span id="profileUserHostelRoom"></span></p>
+                <button class="btn-primary logout-btn" id="logoutBtn">Logout</button>
+            </div>
+            <div class="profile-orders glass-panel">
+                <h3>Order History</h3>
+                <div id="orderHistoryList"></div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="glass-footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <span class="gradient-text" style="font-size: 1.5rem; font-weight: 800;">IITG Eats</span>
+                <p style="margin-top: 1rem; color: var(--text-secondary);">Bringing campus cravings to your doorstep.</p>
+            </div>
+            <div class="footer-links">
+                <div class="link-column">
+                    <h4>Company</h4>
+                    <a href="#">About</a>
+                    <a href="#">Careers</a>
+                    <a href="#">Team</a>
+                </div>
+                <div class="link-column">
+                    <h4>Contact</h4>
+                    <a href="#">Help & Support</a>
+                    <a href="#">Partner with us</a>
+                    <a href="admin.html">Operations demo</a>
+                    <a href="vendor.html">Canteen demo</a>
+                    <a href="rider.html">Delivery demo</a>
+                </div>
+            </div>
+        </div>
+        <p class="copyright">&copy; 2026 IITG Eats. Made for the IITG Community.</p>
+    </footer>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <!-- Sticky bottom cart bar (mobile) -->
+    <div class="sticky-cart-bar" id="stickyCartBar" style="display:none;">
+        <div>
+            <span id="stickyCartCount">0 items</span>
+            <span id="stickyCartTotal">₹0</span>
+        </div>
+        <button id="stickyViewCart">View Cart</button>
+    </div>
+
+    <!-- ====== AI CHATBOT ====== -->
+    <button class="chat-fab" id="chatFab" aria-label="Open food assistant">
+        <i class="ri-robot-2-line"></i>
+        <span class="chat-fab-pulse"></span>
+    </button>
+
+    <div class="chat-panel" id="chatPanel">
+        <div class="chat-header">
+            <div class="chat-avatar"><i class="ri-robot-2-line"></i></div>
+            <div class="chat-title">
+                <h4>IITG Eats Assistant</h4>
+                <span class="chat-status"><i class="ri-checkbox-circle-fill"></i> Live Menu & Supabase AI</span>
+            </div>
+            <button class="chat-header-btn" id="chatPrefsBtn" aria-label="Preferences" title="Diet & Preferences"><i class="ri-sound-module-line"></i></button>
+            <button class="chat-close" id="chatClose" aria-label="Close chat"><i class="ri-close-line"></i></button>
+        </div>
+
+        <!-- Preferences Drawer -->
+        <div class="chat-prefs-panel" id="chatPrefsPanel" style="display:none;">
+            <div class="chat-prefs-title">
+                <span><i class="ri-user-settings-line"></i> Preferences & Restrictions</span>
+                <button id="chatPrefsCloseBtn" aria-label="Back"><i class="ri-arrow-left-line"></i></button>
+            </div>
+            <div class="chat-prefs-content">
+                <label class="pref-switch-row">
+                    <input type="checkbox" id="prefUseHistoryToggle" checked>
+                    <span class="pref-switch-label">
+                        <strong>Use My Order History</strong>
+                        <small>Personalise combos with previously ordered & liked dishes</small>
+                    </span>
+                </label>
+                <div class="pref-section">
+                    <label class="pref-sec-label">Dietary Preference</label>
+                    <div class="pref-btn-group" id="prefDietGroup">
+                        <button class="pref-tag-btn active" data-val="any">Any</button>
+                        <button class="pref-tag-btn" data-val="vegetarian">Pure Veg 🥬</button>
+                        <button class="pref-tag-btn" data-val="non-vegetarian">Non-Veg 🍗</button>
+                    </div>
+                </div>
+                <div class="pref-section">
+                    <label class="pref-sec-label">Allergies to Exclude</label>
+                    <div class="pref-allergens-grid">
+                        <label class="pref-allergen-chip"><input type="checkbox" value="wheat" class="pref-allergen-check"> Wheat / Gluten</label>
+                        <label class="pref-allergen-chip"><input type="checkbox" value="dairy" class="pref-allergen-check"> Dairy / Lactose</label>
+                        <label class="pref-allergen-chip"><input type="checkbox" value="nuts" class="pref-allergen-check"> Peanuts & Nuts</label>
+                        <label class="pref-allergen-chip"><input type="checkbox" value="egg" class="pref-allergen-check"> Egg</label>
+                        <label class="pref-allergen-chip"><input type="checkbox" value="soy" class="pref-allergen-check"> Soy</label>
+                    </div>
+                </div>
+                <div class="pref-section">
+                    <label class="pref-sec-label">Spice Tolerance</label>
+                    <div class="pref-btn-group" id="prefSpiceGroup">
+                        <button class="pref-tag-btn" data-val="mild">Mild 🌿</button>
+                        <button class="pref-tag-btn active" data-val="medium">Medium 🌶️</button>
+                        <button class="pref-tag-btn" data-val="spicy">Spicy 🔥</button>
+                    </div>
+                </div>
+                <div class="pref-section">
+                    <label class="pref-sec-label">Usual Budget: <span id="prefBudgetText" style="color:#C92332;font-weight:700;">₹180</span></label>
+                    <input type="range" id="prefBudgetInput" min="60" max="500" step="10" value="180" style="width:100%;">
+                </div>
+                <button class="btn-save-prefs" id="btnSavePrefs"><i class="ri-check-line"></i> Save to Supabase</button>
+            </div>
+        </div>
+
+        <div class="chat-messages" id="chatMessages">
+            <!-- messages injected -->
+        </div>
+        <div class="chat-quick-replies" id="chatQuickReplies"></div>
+        <div class="chat-input-row">
+            <input type="text" id="chatInput" placeholder="e.g. Feeling tired, want something filling under ₹150..." autocomplete="off">
+            <button id="chatSend" aria-label="Send"><i class="ri-send-plane-2-fill"></i></button>
+        </div>
+    </div>
+    <div class="chat-overlay" id="chatOverlay"></div>
+
+    <script src="supabase.js"></script>
+    <script>
+        if (!window.supabase) {
+            document.write('<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"><\/script>');
+        }
+    </script>
+    <script src="catalog.js"></script>
+    <script src="portal-data.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
